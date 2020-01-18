@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import * as BooksAPI from '../BooksAPI'
+import Book from './books/Book'
 
 export class BookSearch extends Component {
 
-    handleChange = ({ target: { value }}) => {
-        console.log(value)
+    state = {
+        searchedBooks: []
+    }
+    handleChange = ({ target: { value } }) => {
+        BooksAPI.search(value.toLowerCase()).then(books => this.setState({ searchedBooks: books })).catch(err => console.log('An error occurred while searching for books'));
     }
     render() {
+        const { searchedBooks, isLoading } = this.state
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -25,7 +31,10 @@ export class BookSearch extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <ol className="books-grid"></ol>
+                    <ol className="books-grid">
+                        {searchedBooks && searchedBooks.length > 0 && !isLoading ?           (searchedBooks.map(book => (<Book book={book} key={book.id} />))): (<h4>No books were found</h4>)
+                        }
+                    </ol>
                 </div>
             </div>
         )

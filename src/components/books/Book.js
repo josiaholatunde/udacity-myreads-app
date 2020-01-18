@@ -3,15 +3,15 @@ import SelectCategories from '../SelectCategories'
 
 const Book = ({ handleMoveToCategory, book }) => {
 
-    const { imageLinks: { thumbnail }, title, authors } = book
-    
+    const { imageLinks: { thumbnail }, title, authors, shelf } = book
+
     return (
         <li>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail}}')` }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail ? thumbnail : ''}}')` }}></div>
                     <div className="book-shelf-changer">
-                        <SelectCategories moveToCategory={(category) => {
+                        <SelectCategories shelf={shelf} moveToCategory={(category) => {
                             handleMoveToCategory({ ...book, categoryToMoveTo: category })
                         }} />
                     </div>

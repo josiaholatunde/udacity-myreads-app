@@ -1,8 +1,8 @@
 import React from 'react'
 
-const SelectCategories = ({ moveToCategory }) => {
+const SelectCategories = ({ moveToCategory, shelf }) => {
     return (
-        <select name='category' onChange={({ target: { value }}) => moveToCategory(value) }>
+        <select name='category' value={shelf} onChange={({ target: { value }}) => moveToCategory(value) }>
             <option value="move" disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
