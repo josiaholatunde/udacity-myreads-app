@@ -1,6 +1,9 @@
 import React from 'react'
 
 const SelectCategories = ({ moveToCategory, shelf }) => {
+    if (!shelf) {
+        shelf = 'none'
+    }
     return (
         <select name='category' value={shelf} onChange={({ target: { value }}) => moveToCategory(value) }>
             <option value="move" disabled>Move to...</option>

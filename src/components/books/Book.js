@@ -2,14 +2,13 @@ import React, { Fragment } from 'react'
 import SelectCategories from '../SelectCategories'
 
 const Book = ({ handleMoveToCategory, book }) => {
-
-    const { imageLinks: { thumbnail }, title, authors, shelf } = book
+    const { imageLinks, title, authors, shelf } = book
 
     return (
         <li>
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail ? thumbnail : ''}}')` }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${ imageLinks && imageLinks.thumbnail ? imageLinks.thumbnail : ''}}')` }}></div>
                     <div className="book-shelf-changer">
                         <SelectCategories shelf={shelf} moveToCategory={(category) => {
                             handleMoveToCategory({ ...book, categoryToMoveTo: category })

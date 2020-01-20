@@ -9,10 +9,28 @@ export class BookSearch extends Component {
         searchedBooks: []
     }
     handleChange = ({ target: { value } }) => {
-        BooksAPI.search(value.toLowerCase()).then(books => this.setState({ searchedBooks: books })).catch(err => console.log('An error occurred while searching for books'));
+        const AllBooks = this.props.allBooks;
+        if (value.trim().length > 0) {
+            BooksAPI.search(value.toLowerCase()).then(books => {
+                if (books.length > 0) {
+                   books.forEach(book => {
+                    const foundBook = AllBooks.find(bookInShelf => bookInShelf.id === book.id);
+                    console.log('Bako'+foundBook)
+                    book.shelf = foundBook ? foundBook.shelf : 'none'
+                   })
+                   this.setState({ searchedBooks: books })
+                } else {
+                    this.setState({searchedBooks: []})
+                }
+            }).catch(err => console.log('An error occurred while searching for books'+ JSON.stringify(err)));
+
+        }
     }
+
+
     render() {
         const { searchedBooks, isLoading } = this.state
+
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -32,7 +50,9 @@ export class BookSearch extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {searchedBooks && searchedBooks.length > 0 && !isLoading ?           (searchedBooks.map(book => (<Book book={book} key={book.id} />))): (<h4>No books were found</h4>)
+                        {searchedBooks && searchedBooks.length > 0 && !isLoading ? (searchedBooks.map(book => (<Book book={book}
+                            handleMoveToCategory={this.props.moveToCategory}
+                            key={book.id} />))) : (<h4>No books were found</h4>)
                         }
                     </ol>
                 </div>

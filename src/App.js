@@ -20,20 +20,22 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     this.setState({ isLoading: true })
+    this.getAllBooks()
+  }
+
+  getAllBooks = () => {
     BooksAPI.getAll().then(books => {
-       this.setState({ books, isLoading: false })
-       
-    }).catch(err => { 
+      this.setState({ books, isLoading: false })
+    }).catch(err => {
       console.log('An error occurred while fetching books')
-      this.setState({isLoading: false})
-  })
+      this.setState({ isLoading: false })
+    })
   }
 
   moveToCategory = (bookToUpdate) => {
-    bookToUpdate.shelf = bookToUpdate.categoryToMoveTo
-    this.setState(prevState => ({
-      books: prevState.books.map(book => book.title === bookToUpdate.title ? bookToUpdate: book)
-    }))
+    BooksAPI.update(bookToUpdate, bookToUpdate.categoryToMoveTo).then(() => {
+      this.getAllBooks();
+    });
   }
 
   render() {
@@ -41,9 +43,11 @@ class BooksApp extends React.Component {
     const { books, isLoading } = this.state;
     return (
       <div className="app">
-        <Router> 
+        <Router>
           <Switch>
-            <Route exact path='/search' component={BookSearch} />
+            <Route exact path='/search' render={(props) => (
+              <BookSearch allBooks={books} {...props} moveToCategory={this.moveToCategory} />
+            )} />
             <Route path='/' render={(props) => (<BookList {...props} books={books} isLoading={isLoading} moveToCategory={this.moveToCategory} />)} />
           </Switch>
         </Router>
