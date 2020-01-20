@@ -1,7 +1,14 @@
 # MyReads Project
 
-Ogunboyejo Olatunde 
-Udacity Nanodegree Project 1
+# Ogunboyejo Olatunde 
+## Udacity Nanodegree ReactJS Project 1
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Mode of usage](#mode-of-usage)
+- [Setting up the application](#setting-up-the-app)
+
 
 ## Introduction
 This application is a book shelf application that consists majorly of two pages. The main page comprises 3 sections: The books the reader is currently reading, the books the reader wants to read, and the books that the reader has read. Each of the books has a button which could be used to change the status of the book from one shelf/category to another. It does this by making an update http query to an endpoint which modifies the status of that book. 
