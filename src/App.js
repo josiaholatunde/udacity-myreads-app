@@ -5,6 +5,8 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookSearch from './components/BookSearch'
 import BookList from './components/books/BookList'
+import Spinner from './components/Spinner'
+
 
 class BooksApp extends React.Component {
   state = {
@@ -41,6 +43,7 @@ class BooksApp extends React.Component {
   render() {
 
     const { books, isLoading } = this.state;
+
     return (
       <div className="app">
         <Router>
@@ -48,7 +51,9 @@ class BooksApp extends React.Component {
             <Route exact path='/search' render={(props) => (
               <BookSearch allBooks={books} {...props} moveToCategory={this.moveToCategory} />
             )} />
-            <Route path='/' render={(props) => (<BookList {...props} books={books} isLoading={isLoading} moveToCategory={this.moveToCategory} />)} />
+            <Route path='/' render={(props) => isLoading ? (
+              <Spinner />
+            ): (<BookList {...props} books={books} moveToCategory={this.moveToCategory} />)} />
           </Switch>
         </Router>
       </div>

@@ -2,27 +2,33 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import * as BooksAPI from '../BooksAPI'
 import Book from './books/Book'
+import Spinner from './Spinner'
 
 export class BookSearch extends Component {
 
     state = {
-        searchedBooks: []
+        searchedBooks: [],
+        isLoading: false
     }
     handleChange = ({ target: { value } }) => {
         const AllBooks = this.props.allBooks;
         if (value.trim().length > 0) {
+            this.setState({ isLoading: true })
             BooksAPI.search(value.toLowerCase()).then(books => {
                 if (books.length > 0) {
                    books.forEach(book => {
                     const foundBook = AllBooks.find(bookInShelf => bookInShelf.id === book.id);
-                    console.log('Bako'+foundBook)
                     book.shelf = foundBook ? foundBook.shelf : 'none'
                    })
                    this.setState({ searchedBooks: books })
                 } else {
                     this.setState({searchedBooks: []})
                 }
-            }).catch(err => console.log('An error occurred while searching for books'+ JSON.stringify(err)));
+                this.setState({ isLoading: false })
+            }).catch(err => {
+                this.setState({ isLoading: false })
+                console.log('An error occurred while searching for books'+ JSON.stringify(err))
+            });
 
         }
     }
@@ -30,7 +36,6 @@ export class BookSearch extends Component {
 
     render() {
         const { searchedBooks, isLoading } = this.state
-
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -50,9 +55,12 @@ export class BookSearch extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {searchedBooks && searchedBooks.length > 0 && !isLoading ? (searchedBooks.map(book => (<Book book={book}
-                            handleMoveToCategory={this.props.moveToCategory}
-                            key={book.id} />))) : (<h4>No books were found</h4>)
+                        {
+                            isLoading ? (<Spinner />) : (
+                                searchedBooks && searchedBooks.length > 0  ? (searchedBooks.map(book => (<Book book={book}
+                                    handleMoveToCategory={this.props.moveToCategory}
+                                    key={book.id} />))) : (<h4>No books were found</h4>)
+                            )
                         }
                     </ol>
                 </div>
