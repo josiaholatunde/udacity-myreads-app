@@ -1,13 +1,32 @@
 # MyReads Project
 
-This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
+# Ogunboyejo Olatunde 
+## Udacity Nanodegree ReactJS Project 1
 
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Mode of usage](#mode-of-usage)
+- [Setting up the application](#setting-up-the-app)
+
+
+## Introduction
+This application is a book shelf application that consists majorly of two pages. The main page comprises 3 sections: The books the reader is currently reading, the books the reader wants to read, and the books that the reader has read. Each of the books has a button which could be used to change the status of the book from one shelf/category to another. It does this by making an update http query to an endpoint which modifies the status of that book. 
+
+The search page has an input box which could be used to search for a book based on several sort parameters. The state of the book on the main page is held on the search page. The status of the book also updates on the main page when the reader changes the status on the main page.
+
+
+## Mode of usage
+On the main page, Click on the button on any of the books and move to a different shelf. You should observe that the book is now in the appropriate shelf.
+
+Click on the arrow icon at the bottom of the page which leads to the search page. Search for the book which you moved to a different bookshelf. You should notice by now that it holds the same shelf state as that on the main page.
 
 ## TL;DR
 
-To get started developing right away:
+### Setting up the application
 
+To get started developing right away:
+* clone the application at https://github.com/josiaholatunde/udacity-myreads-app
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
 
