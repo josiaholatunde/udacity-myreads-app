@@ -5,7 +5,6 @@ export class BookShelf extends Component {
   render() {
 
     const { books } = this.props
-    console.log('Yo'+ books.length)
     return (
       <ol className="books-grid">
         {    

@@ -5,7 +5,7 @@ import BookShelf from './BookShelf'
 class BookList extends Component {
 
     shelfTypes = [
-        { type: 'read', title: 'Read' },
+        { type: 'currentlyReading', title: 'Currently Reading' },
         { type: 'wantToRead', title: 'Want to Read' },
         { type: 'read', title: 'Read' }
     ]
