@@ -1,21 +1,18 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import Book from './Book'
+import BookShelf from './BookShelf'
 
 class BookList extends Component {
 
-    getCategories(books) {
-        return {
-            read: books.filter(book => book.shelf === 'read'),
-            wantToRead: books.filter(book => book.shelf === 'wantToRead'),
-            currentlyReading: books.filter(book => book.shelf === 'currentlyReading')
-        }
-    }
+    shelfTypes = [
+        { type: 'read', title: 'Read' },
+        { type: 'wantToRead', title: 'Want to Read' },
+        { type: 'read', title: 'Read' }
+    ]
 
     render() {
 
-        const { books, isLoading } = this.props
-        const { currentlyReading, wantToRead, read } = this.getCategories(books);
+        const { books } = this.props
 
         return (
             <div className="list-books">
@@ -24,37 +21,24 @@ class BookList extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Currently Reading</h2>
-                            <div className="bookshelf-books">
-                                <ol className="books-grid">
-                                    {currentlyReading.length > 0 && !isLoading ? (
-                                        currentlyReading.map(book => (<Book book={book} key={book.title}
-                                            handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />))
-                                    ) : (<h4> No books in this category </h4>)}
-                                </ol>
-                            </div>
-                        </div>
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Want to Read</h2>
-                            <div className="bookshelf-books">
-                                <ol className="books-grid">
-                                    {wantToRead.length > 0 && !isLoading ? (
-                                        wantToRead.map(book => (<Book book={book} key={book.title} handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />))
-                                    ) : (<h4> No books in this category </h4>)}
-                                </ol>
-                            </div>
-                        </div>
-                        <div className="bookshelf">
-                            <h2 className="bookshelf-title">Read</h2>
-                            <div className="bookshelf-books">
-                                <ol className="books-grid">
-                                    {read.length > 0 && !isLoading ? (
-                                        read.map(book => (<Book book={book} key={book.title} handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />))
-                                    ) : (<h4> No books in this category </h4>)}
-                                </ol>
-                            </div>
-                        </div>
+                        {this.shelfTypes.map((shelf, index) => {
+                            const booksinShelf = books.filter(book => book.shelf === shelf.type);
+                            return <Fragment key={index} >
+                                {
+                                    booksinShelf.length === 0 ? (
+                                        <h4>No Books to show in this category</h4>
+                                    ) : (
+                                            <div className="bookshelf">
+                                                <h2 className="bookshelf-title"> {shelf.title} </h2>
+                                                <div className="bookshelf-books">
+                                                    <BookShelf books={booksinShelf} moveToCategory={this.props.moveToCategory} />
+                                                </div>
+                                            </div>
+                                        )
+                                }
+                            </Fragment>
+
+                        })}
                     </div>
                 </div>
                 <div className="open-search">

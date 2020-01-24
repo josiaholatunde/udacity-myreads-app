@@ -7,35 +7,76 @@ import Spinner from './Spinner'
 export class BookSearch extends Component {
 
     state = {
+        query: '',
         searchedBooks: [],
-        isLoading: false
+        isLoading: false,
+        error: {
+            blankQuery: '',
+            serverError: ''
+        }
     }
     handleChange = ({ target: { value } }) => {
+        const query = value;
+        this.setState({ query })
+
         const AllBooks = this.props.allBooks;
-        if (value.trim().length > 0) {
-            this.setState({ isLoading: true })
-            BooksAPI.search(value.toLowerCase()).then(books => {
+        if (query.trim().length > 0) {
+            this.setState({
+                isLoading: true,
+                error: {
+                    blankQuery: '',
+                    serverError: ''
+                }
+            })
+            BooksAPI.search(query.toLowerCase()).then(books => {
                 if (books.length > 0) {
-                   books.forEach(book => {
-                    const foundBook = AllBooks.find(bookInShelf => bookInShelf.id === book.id);
-                    book.shelf = foundBook ? foundBook.shelf : 'none'
-                   })
-                   this.setState({ searchedBooks: books })
+                    books.forEach(book => {
+                        const foundBook = AllBooks.find(bookInShelf => bookInShelf.id === book.id);
+                        book.shelf = foundBook ? foundBook.shelf : 'none'
+                    })
+                    this.setState({
+                        searchedBooks: books,
+                        error: {
+                            blankQuery: '',
+                            serverError: ''
+                        }
+                    })
                 } else {
-                    this.setState({searchedBooks: []})
+                    this.setState({
+                        searchedBooks: [], error: {
+                            blankQuery: '',
+                            serverError: ''
+                        }
+                    })
                 }
                 this.setState({ isLoading: false })
             }).catch(err => {
-                this.setState({ isLoading: false })
-                console.log('An error occurred while searching for books'+ JSON.stringify(err))
+                this.setState({
+                    isLoading: false,
+                    error: {
+                        serverError: 'An error occurred while searching for books',
+                        blankQuery: ''
+                    }
+                })
+                console.log('An error occurred while searching for books' + JSON.stringify(err))
             });
 
+        } else {
+            console.log('Yo')
+            this.setState({
+                searchedBooks: [],
+                isLoading: false,
+                error: {
+                    blankQuery: 'Kindly enter a category to search for a book',
+                    serverError: ''
+                }
+            })
         }
     }
 
 
     render() {
-        const { searchedBooks, isLoading } = this.state
+        const { searchedBooks, isLoading, query, error: { blankQuery, serverError } } = this.state
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -49,17 +90,20 @@ export class BookSearch extends Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                        <input type="text" placeholder="Search by title or author" onChange={this.handleChange} />
+                        <input type="text" value={query} placeholder="Search by title or author" onChange={this.handleChange} />
 
                     </div>
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
                         {
-                            isLoading ? (<Spinner />) : (
-                                searchedBooks && searchedBooks.length > 0  ? (searchedBooks.map(book => (<Book book={book}
-                                    handleMoveToCategory={this.props.moveToCategory}
-                                    key={book.id} />))) : (<h4>No books were found</h4>)
+                            blankQuery || serverError ? (<h4> {blankQuery || serverError}  </h4>) : (
+                                isLoading ? (<Spinner />) : (
+                                    searchedBooks && searchedBooks.length > 0 ? (searchedBooks.map(book => (<Book book={book}
+                                        handleMoveToCategory={this.props.moveToCategory}
+                                        key={book.id} />))) : (<h4>No books were found</h4>
+                                        )
+                                )
                             )
                         }
                     </ol>
