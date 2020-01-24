@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import Book from './Book'
 
 export class BookShelf extends Component {
-    render() {
+  render() {
 
-        const { books: { shelf, imageLinks: { thumbnail }, title, authors } } = this.props
-        return (
-            <div className="bookshelf">
-            <h2 className="bookshelf-title"> { shelf } </h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                <Book />
-                </ol>
-              </div>
-            </div>
-        )
-    }
+    const { books } = this.props
+    return (
+      <ol className="books-grid">
+        {    
+            books.map((currentBook) => 
+            (<Book book={currentBook} key={currentBook.id} handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />
+            ))
+        }
+      </ol>
+
+    )
+  }
 }
 
 export default BookShelf

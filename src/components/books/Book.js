@@ -3,7 +3,6 @@ import SelectCategories from '../SelectCategories'
 
 const Book = ({ handleMoveToCategory, book }) => {
     const { imageLinks, title, authors, shelf } = book
-
     return (
         <li>
             <div className="book">
