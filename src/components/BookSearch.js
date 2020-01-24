@@ -62,7 +62,7 @@ export class BookSearch extends Component {
             });
 
         } else {
-            console.log('Yo')
+            
             this.setState({
                 searchedBooks: [],
                 isLoading: false,
