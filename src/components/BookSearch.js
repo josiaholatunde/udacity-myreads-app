@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from '../BooksAPI'
 import Book from './books/Book'
 import Spinner from './Spinner'
+import _ from 'lodash'
 
 export class BookSearch extends Component {
 
@@ -28,6 +29,8 @@ export class BookSearch extends Component {
                     serverError: ''
                 }
             })
+           _.debounce(() => {
+               console.log('Yo')
             BooksAPI.search(query.toLowerCase()).then(books => {
                 if (books.length > 0) {
                     books.forEach(book => {
@@ -60,9 +63,9 @@ export class BookSearch extends Component {
                 })
                 console.log('An error occurred while searching for books' + JSON.stringify(err))
             });
+           }, 1000)()
 
         } else {
-            console.log('Yo')
             this.setState({
                 searchedBooks: [],
                 isLoading: false,
