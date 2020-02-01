@@ -30,7 +30,6 @@ export class BookSearch extends Component {
                 }
             })
            _.debounce(() => {
-               console.log('Yo')
             BooksAPI.search(query.toLowerCase()).then(books => {
                 if (books.length > 0) {
                     books.forEach(book => {
