@@ -17,7 +17,7 @@ class BookList extends Component {
         return (
             <div className="list-books">
                 <div className="list-books-title">
-                    <h1>MyReads</h1>
+                    <h1 >MyReads</h1>
                 </div>
                 <div className="list-books-content">
                     <div>
@@ -29,7 +29,7 @@ class BookList extends Component {
                                         <h4>No Books to show in this category</h4>
                                     ) : (
                                             <div className="bookshelf">
-                                                <h2 className="bookshelf-title"> {shelf.title} </h2>
+                                                <h2 className="bookshelf-title" > {shelf.title} </h2>
                                                 <div className="bookshelf-books">
                                                     <BookShelf books={booksinShelf} moveToCategory={this.props.moveToCategory} />
                                                 </div>
@@ -47,6 +47,8 @@ class BookList extends Component {
             </div>
         )
     }
+
+    
 }
 
 export default BookList
