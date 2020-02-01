@@ -8,8 +8,8 @@ export class BookShelf extends Component {
     return (
       <ol className="books-grid">
         {    
-            books.map((currentBook) => 
-            (<Book book={currentBook} key={currentBook.id} handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />
+            books.map((book) => 
+            (<Book book={book} key={book.id} handleMoveToCategory={(bookToMove) => this.props.moveToCategory(bookToMove)} />
             ))
         }
       </ol>

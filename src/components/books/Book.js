@@ -22,6 +22,8 @@ const Book = ({ handleMoveToCategory, book }) => {
                 </div>
             </div>
         </li>
+
+        
     )
 }
 
